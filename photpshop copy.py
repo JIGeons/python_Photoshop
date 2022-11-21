@@ -137,9 +137,17 @@ class WindowClass(QMainWindow, form_class):
     
     #마우스가 눌렸을 때 해당 이미지 옮기기
     def mousePressEvent(self, e):
-        print("안녕",e)
+        myimg = self.label_image.pixmap()
+        myimg.move(100,100)#옮기자
         
-    def chooseFunction(self):   # 선택하기 버튼
+    def expandFunction(self):   # 선택하기 버튼
+        #크기 커지는 것
+        print(self.label_image.pixmap().size().width)
+        origin_width = self.label_image.pixmap().size().width()
+        self.label_image.setPixmap(self.label_image.pixmap().scaledToWidth(origin_width+10))
+        print(self.label_image.pixmap())
+        
+    def decreaseFunction(self):   # 선택하기 버튼
         #크기 작아지는 것
         print(self.label_image.pixmap().size().width)
         origin_width = self.label_image.pixmap().size().width()

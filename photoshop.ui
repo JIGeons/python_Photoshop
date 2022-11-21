@@ -337,7 +337,7 @@
      <x>0</x>
      <y>0</y>
      <width>862</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -492,30 +492,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>B_choose</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>chooseFunction()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>55</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>138</x>
-     <y>107</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>B_spoid</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>spoidFunction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>195</y>
+     <x>188</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>151</x>
@@ -530,8 +514,8 @@
    <slot>cloneFunction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
-     <y>292</y>
+     <x>211</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
      <x>169</x>
@@ -546,8 +530,8 @@
    <slot>cutFunction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>374</y>
+     <x>100</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
      <x>180</x>
@@ -562,8 +546,8 @@
    <slot>boundFunction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>89</x>
-     <y>468</y>
+     <x>102</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>161</x>
@@ -578,12 +562,44 @@
    <slot>brushFunction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>65</x>
-     <y>567</y>
+     <x>78</x>
+     <y>228</y>
     </hint>
     <hint type="destinationlabel">
      <x>132</x>
      <y>534</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>B_choose</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>expandFunction()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>52</x>
+     <y>34</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>B_choose_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>decreaseFunction()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>246</x>
+     <y>52</y>
     </hint>
    </hints>
   </connection>
@@ -593,11 +609,12 @@
   <slot>redFunction()</slot>
   <slot>greenFunction()</slot>
   <slot>blueFunction()</slot>
-  <slot>chooseFunction()</slot>
   <slot>spoidFunction()</slot>
   <slot>cloneFunction()</slot>
   <slot>cutFunction()</slot>
   <slot>boundFunction()</slot>
   <slot>brushFunction()</slot>
+  <slot>expandFunction()</slot>
+  <slot>decreaseFunction()</slot>
  </slots>
 </ui>
