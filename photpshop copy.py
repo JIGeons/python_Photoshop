@@ -7,7 +7,7 @@ from PyQt5 import QtGui       # QPixmap을 사용하기 위해 QtGui import
 from PyQt5 import uic
 
 form_class = uic.loadUiType('C:\\Users\\user\\Desktop\\Photoshop\\photoshop.ui')[0]
-changed_image = "log/log_image.jpg" # 필터 적용시 잠시 저장용 
+changed_image = "log/" # 필터 적용시 잠시 저장용 
 
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
@@ -27,9 +27,13 @@ class WindowClass(QMainWindow, form_class):
 
         self.opened = False     # 파일을 열었는지 않열었는지 구분하기 위함
         self.opened_file_path = "제목 없음"
-        self.original_image = QLabel()
 
         self.canvas = QPixmap()
+
+    def name(self):
+        name = self.opened_file_path.split('/')
+        img_name = name[len(name)-1]
+        return img_name
 
     def ischanged(self):
         if not self.opened:
@@ -39,14 +43,14 @@ class WindowClass(QMainWindow, form_class):
             return False
         
         # 현재 데이터
-        current_Image = self.label_image.pixmap()
+        img_name = self.name()
+        self.label_image.pixmap().save(changed_image + img_name)
+        current_Image = cv.imread(changed_image + img_name)
 
         # 파일에 저장된 데이터
-        file_image.load(self.opened_file_path)
-        self.original_image.setPixmap(file_image)
-        file_image = self.original_image.pixmap()
+        file_image = cv.imread(self.opened_file_path)
 
-        if current_Image == file_image:   # 열린적이 있고 변경사항이 없으면
+        if current_Image.any() == file_image.any():   # 열린적이 있고 변경사항이 없으면
             return False
         else:           # 열린적이 있고 변경사항이 있으면
             return True  
