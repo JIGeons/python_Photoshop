@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *   # 위젯을 사용하기 위해 QtWidgets import
 from PyQt5.QtGui import *       # QPixmap을 사용하기 위해 QtGui import
 from PyQt5 import QtGui       # QPixmap을 사용하기 위해 QtGui import
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 
 form_class = uic.loadUiType('E:\\2022_workspace\\python_Photoshop\\photoshop.ui')[0]
 
@@ -12,6 +13,8 @@ class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        
+       
 
         self.action_Open.triggered.connect(self.openFunction)       # 열기
         self.action_Save.triggered.connect(self.saveFunction)       # 저장
@@ -24,7 +27,6 @@ class WindowClass(QMainWindow, form_class):
         self.action_Copy.triggered.connect(self.CopyFunction)       # 복사
         self.action_Paste.triggered.connect(self.PasteFunction)     # 붙여넣기
 
-        self.B_choose.clicked.connect(self.chooseFunction)           # 선택하기
         self.B_black.clicked.connect(self.blackFunction)           # 선택하기
         self.B_red.clicked.connect(self.redFunction)           # 선택하기
 
@@ -32,7 +34,7 @@ class WindowClass(QMainWindow, form_class):
         self.opened_file_path = '제목 없음'
 
         self.canvas = QPixmap()
-
+        
     def ischanged(self):
         if not self.opened:
             if self.label_image.pixmap(): # 열린적이 있고 변경사항이 있으면 # 열린적은 없는데 에디터 내용이 있으면
@@ -78,7 +80,6 @@ class WindowClass(QMainWindow, form_class):
     def open_file(self, fname):
         self.canvas.load(fname)
         self.label_image.setPixmap(self.canvas.scaledToWidth(300))
-        self.image = cv.imread(fname, cv.IMREAD_COLOR)
 
         self.opened = True
         self.opened_file_path = fname
@@ -130,24 +131,16 @@ class WindowClass(QMainWindow, form_class):
     def PasteFunction(self):    # 붙여넣기
         self.canvas.paste()
 
-    def chooseFunction(self):   # 선택하기
-        x_min, x_max = 0,0
-        value = list()
-        for i in range(self.image.height()) :
-            for j in range(self.image.width()) :
-                value.append(self.image[i][j][0][0])
-                x_min = min(value)
-                x_max = max(value)
+    def mouseMoveEvent(self, event):
+        MouseTracking_Location = "Tracking For Mouse Location: x axis = {0}, y axis ={1}, global x,y = {2}, {3}".format(event.x(), event.y(), event.globalX(), event.globalY())
+        print(MouseTracking_Location)
         
-        y_min, y_max = 0,0
-        value = list()
-        for i in range(self.image.height()) :
-            for j in range(self.image.width()) :
-                value.append(self.image[i][j][0][1])
-                y_min = min(value)
-                y_max = max(value)
-
-        return 1
+    def chooseFunction(self):   # 선택하기 버튼
+        self.label_image.pixmap()
+        #선택하기 버튼을 누르면 그 객체를 이동
+        #크기 작아지는 것
+        self.label_image.setPixmap(self.label_image.pixmap().scaledToWidth(10))
+        print(self.label_image.pixmap())
 
     def blackFunction(self):   # 사진 흑백으로 전환
         print(1)
