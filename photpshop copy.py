@@ -6,7 +6,7 @@ from PyQt5.QtGui import *       # QPixmap을 사용하기 위해 QtGui import
 from PyQt5 import QtGui       # QPixmap을 사용하기 위해 QtGui import
 from PyQt5 import uic
 
-form_class = uic.loadUiType('C:\\Users\\user\\Desktop\\영상처리프로그래밍 프로젝트\\photoshop.ui')[0]
+form_class = uic.loadUiType('E:\\2022_workspace\\python_Photoshop\\photoshop.ui')[0]
 
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
