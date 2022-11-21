@@ -134,12 +134,16 @@ class WindowClass(QMainWindow, form_class):
     def mouseMoveEvent(self, event):
         MouseTracking_Location = "Tracking For Mouse Location: x axis = {0}, y axis ={1}, global x,y = {2}, {3}".format(event.x(), event.y(), event.globalX(), event.globalY())
         print(MouseTracking_Location)
+    
+    #마우스가 눌렸을 때 해당 이미지 옮기기
+    def mousePressEvent(self, e):
+        print("안녕",e)
         
     def chooseFunction(self):   # 선택하기 버튼
-        self.label_image.pixmap()
-        #선택하기 버튼을 누르면 그 객체를 이동
         #크기 작아지는 것
-        self.label_image.setPixmap(self.label_image.pixmap().scaledToWidth(10))
+        print(self.label_image.pixmap().size().width)
+        origin_width = self.label_image.pixmap().size().width()
+        self.label_image.setPixmap(self.label_image.pixmap().scaledToWidth(origin_width-10))
         print(self.label_image.pixmap())
 
     def blackFunction(self):   # 사진 흑백으로 전환
