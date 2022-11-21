@@ -26,7 +26,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.B_choose.clicked.connect(self.chooseFunction)           # 선택하기
         self.B_black.clicked.connect(self.blackFunction)           # 선택하기
-        self.B_choose.clicked.connect(self.chooseFunction)           # 선택하기
+        self.B_red.clicked.connect(self.redFunction)           # 선택하기
 
         self.opened = False     # 파일을 열었는지 않열었는지 구분하기 위함
         self.opened_file_path = '제목 없음'
@@ -164,7 +164,37 @@ class WindowClass(QMainWindow, form_class):
         pixmap = QPixmap.fromImage(qimage)
         self.canvas.load(pixmap)
         self.label_image.setPixmap(self.canvas)
-            
+
+    def redFunction(self):   # 사진 흑백으로 전환
+        print(1)
+        name = str(self.opened_file_path)
+        img_name = name.split('/')
+        print(img_name[len(img_name)-1])
+        image = cv.imread(img_name[len(img_name)-1])
+        print(image)
+        image_RGB = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        blackimage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        h, w = image.shape[:2]
+        bytesPerLine = 3 * w
+        qimage = QImage(blackimage.data, w, h, bytesPerLine, QImage.Format.Format_RGB888)
+        pixmap = QPixmap.fromImage(qimage)
+        self.canvas.load(pixmap)
+        self.label_image.setPixmap(self.canvas)
+
+    def greenFunction(self):
+        return
+    def blueFunction(self):
+        return
+    def spoidFunction(self):
+        return
+    def cloneFunction(self):
+        return
+    def cutFunction(self):
+        return
+    def boundFunction(self):
+        return
+    def brushFunction(self):
+        return
     
 app = QApplication(sys.argv)
 mainWindow = WindowClass()
