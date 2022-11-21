@@ -8,6 +8,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
 form_class = uic.loadUiType('E:\\2022_workspace\\python_Photoshop\\photoshop.ui')[0]
+changed_image = "log/log_image.jpg" # 필터 적용시 잠시 저장용 
 
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
@@ -27,11 +28,9 @@ class WindowClass(QMainWindow, form_class):
         self.action_Copy.triggered.connect(self.CopyFunction)       # 복사
         self.action_Paste.triggered.connect(self.PasteFunction)     # 붙여넣기
 
-        self.B_black.clicked.connect(self.blackFunction)           # 선택하기
-        self.B_red.clicked.connect(self.redFunction)           # 선택하기
-
         self.opened = False     # 파일을 열었는지 않열었는지 구분하기 위함
-        self.opened_file_path = '제목 없음'
+        self.opened_file_path = "제목 없음"
+        self.original_image = QLabel()
 
         self.canvas = QPixmap()
         
@@ -46,10 +45,11 @@ class WindowClass(QMainWindow, form_class):
         current_Image = self.label_image.pixmap()
 
         # 파일에 저장된 데이터
-        with open(self.opened_file_path) as f:
-            file_image = QPixmap().load(f)
+        file_image.load(self.opened_file_path)
+        self.original_image.setPixmap(file_image)
+        file_image = self.original_image.pixmap()
 
-        if current_Image == file_image.pixmap():   # 열린적이 있고 변경사항이 없으면
+        if current_Image == file_image:   # 열린적이 있고 변경사항이 없으면
             return False
         else:           # 열린적이 있고 변경사항이 있으면
             return True  
@@ -147,41 +147,38 @@ class WindowClass(QMainWindow, form_class):
         print(self.label_image.pixmap())
 
     def blackFunction(self):   # 사진 흑백으로 전환
-        print(1)
-        name = str(self.opened_file_path)
-        img_name = name.split('/')
-        print(img_name[len(img_name)-1])
-        image = cv.imread(img_name[len(img_name)-1])
-        print(image)
-        image_RGB = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        blackimage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        h, w = image.shape[:2]
-        bytesPerLine = 3 * w
-        qimage = QImage(blackimage.data, w, h, bytesPerLine, QImage.Format.Format_RGB888)
-        pixmap = QPixmap.fromImage(qimage)
-        self.canvas.load(pixmap)
-        self.label_image.setPixmap(self.canvas)
+        image = cv.imread(self.opened_file_path, cv.IMREAD_GRAYSCALE)   # 사진 opencv 사용해서 흑백으로 전환
+        cv.imwrite(changed_image, image)        # label에 set을 하려면 이미지 파일이어야 하기 때문에 미리 설정한 log image로 저장
+        self.canvas.load(changed_image)         # log image canvas에 로드 후
+        self.label_image.setPixmap(self.canvas) # label로 이미지 출력
 
     def redFunction(self):   # 사진 흑백으로 전환
-        print(1)
-        name = str(self.opened_file_path)
-        img_name = name.split('/')
-        print(img_name[len(img_name)-1])
-        image = cv.imread(img_name[len(img_name)-1])
-        print(image)
-        image_RGB = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        blackimage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        h, w = image.shape[:2]
-        bytesPerLine = 3 * w
-        qimage = QImage(blackimage.data, w, h, bytesPerLine, QImage.Format.Format_RGB888)
-        pixmap = QPixmap.fromImage(qimage)
-        self.canvas.load(pixmap)
+        image = cv.imread(self.opened_file_path)
+        image[:,:,1] = 0    # 모든 픽셀에 대해 index 0는 R, 1은 G, 2는 B을 의미함
+        image[:,:,2] = 0    # Blue만 뽑기 위해 1과, 2 즉, Green와 Blue를 0으로 변환
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        cv.imwrite(changed_image, image)
+        self.canvas.load(changed_image)
         self.label_image.setPixmap(self.canvas)
 
     def greenFunction(self):
-        return
+        image = cv.imread(self.opened_file_path)
+        image[:,:,0] = 0    # 모든 픽셀에 대해 index 0는 R, 1은 G, 2는 B을 의미함
+        image[:,:,2] = 0    # Green만 뽑기 위해 0과, 2 즉, Red와 Blue를 0으로 변환
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        cv.imwrite(changed_image, image)
+        self.canvas.load(changed_image)
+        self.label_image.setPixmap(self.canvas)
+
     def blueFunction(self):
-        return
+        image = cv.imread(self.opened_file_path)
+        image[:,:,0] = 0    # 모든 픽셀에 대해 index 0는 R, 1은 G, 2는 B을 의미함
+        image[:,:,1] = 0    # Red만 뽑기 위해 0과, 1 즉, Red와 Green을 0으로 변환
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        cv.imwrite(changed_image, image)
+        self.canvas.load(changed_image)
+        self.label_image.setPixmap(self.canvas)
+
     def spoidFunction(self):
         return
     def cloneFunction(self):
